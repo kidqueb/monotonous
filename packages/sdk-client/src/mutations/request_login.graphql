@@ -1,0 +1,5 @@
+mutation RequestLogin($email: String!) {
+  requestLogin(email: $email) {
+    success
+  }
+}

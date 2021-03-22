@@ -1,17 +1,42 @@
 import { useConfirmEmailMutation } from "@monotonous/sdk-client";
-import React, { useEffect, useState } from "react";
-//import useRouter from "next/router";
+import React, { FormEvent, useState } from "react";
+import { useRouter } from "next/router";
 
 export default function ConfirmEmail() {
+  const router = useRouter();
   const initialToken =
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search).get("token");
-  const [{ data, fetching }, confirmEmail] = useConfirmEmailMutation();
+  const email =
+    (typeof window !== "undefined" &&
+      new URLSearchParams(window.location.search).get("email")) ||
+    "";
+  const [{ fetching }, confirmEmail] = useConfirmEmailMutation();
   const [token, setToken] = useState(initialToken || "");
 
+  async function handleSubmit(e: FormEvent) {
+    try {
+      e.preventDefault();
+
+      await confirmEmail({
+        email,
+        token,
+      });
+
+      router.replace("/");
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <p>Confirm Your Email</p>
+
+      <p>
+        <label>Email</label>
+        <input value={email} readOnly />
+      </p>
 
       <p>
         <label>Confirmation Token</label>

@@ -22,11 +22,7 @@ export default function Signup() {
   }
 
   if (data) {
-    return (
-      <div>
-        <p>Check your email for a confirmation.</p>
-      </div>
-    );
+    return <p>Check your email for a confirmation.</p>;
   }
 
   return (

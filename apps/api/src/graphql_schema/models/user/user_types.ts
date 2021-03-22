@@ -16,9 +16,11 @@ export const User = objectType({
  */
 export const UserQuery = extendType({
   type: "Query",
+
   definition(t) {
     t.field("me", {
       type: "User",
+      //shield: authGuard,
       resolve: resolvers.me,
     });
   },

@@ -1,15 +1,5 @@
-mutation ConfirmEmail(
-  $token: String!
-  $email: String!
-  $firstName: String!
-  $lastName: String!
-) {
-  confirmEmail(
-    token: $token
-    email: $email
-    firstName: $firstName
-    lastName: $lastName
-  ) {
+mutation ConfirmEmail($token: String!, $email: String!) {
+  confirmEmail(token: $token, email: $email) {
     id
   }
 }

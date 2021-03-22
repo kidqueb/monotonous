@@ -7,7 +7,7 @@
   "scripts": {
     "prepare": "ultra -r --concurrency 10 --no-pretty prepare",
     "clean": "ultra -r --concurrency 10 --no-pretty clean && rm -rf node_modules",
-    "dev": "yarn gql:dev & yarn ultra -r --no-pretty --concurrency 10 dev",
+    "dev": "yarn gql:watch & yarn ultra -r --no-pretty --concurrency 10 dev",
     "start": "ultra -r --no-pretty--concurrency 10 start",
     "build": "ultra -r --no-pretty --concurrency 10 build",
     "test": "ultra -r --no-pretty--concurrency 10 test",

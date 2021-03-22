@@ -19,8 +19,6 @@ export const AuthMutation = extendType({
       args: {
         token: nonNull("String"),
         email: nonNull("String"),
-        firstName: nonNull("String"),
-        lastName: nonNull("String"),
       },
       resolve: resolvers.confirmEmail,
     });

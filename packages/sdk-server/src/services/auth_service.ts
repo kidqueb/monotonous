@@ -21,7 +21,11 @@ export async function signJwt(userId: string): Promise<string> {
  * @name verifyJwt
  * Verify jwt and return the claims.
  */
-export async function verifyJwt(jwt: string): Promise<Claims> {
+export async function verifyJwt(jwt?: string): Promise<Claims | undefined> {
+  if (!jwt) {
+    return undefined;
+  }
+
   return verify(jwt);
 }
 

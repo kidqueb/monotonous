@@ -1075,8 +1075,6 @@ export interface NexusGenArgTypes {
   Mutation: {
     confirmEmail: { // args
       email: string; // String!
-      firstName: string; // String!
-      lastName: string; // String!
       token: string; // String!
     }
     login: { // args

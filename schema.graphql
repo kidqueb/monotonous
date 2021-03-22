@@ -373,7 +373,7 @@ input IntFilter {
 scalar Json
 
 type Mutation {
-  confirmEmail(email: String!, firstName: String!, lastName: String!, token: String!): User
+  confirmEmail(email: String!, token: String!): User
   login(code: String!): User
   register(email: String!, firstName: String!, lastName: String!): User
   requestLogin(email: String!): SuccessResponse

@@ -48,10 +48,10 @@ export const register: FieldResolver<"Mutation", "register"> = async (
  */
 export const confirmEmail: FieldResolver<"Mutation", "confirmEmail"> = async (
   _source,
-  { token, email, firstName, lastName },
-  { prisma, GqlError }
+  { token, email },
+  { reply, prisma, GqlError }
 ) => {
-  const confirmation = await prisma.emailConfirmation.findUnique({
+  const confirmation = await prisma.emailConfirmation.findFirst({
     where: { token },
     include: { user: true },
   });
@@ -60,20 +60,23 @@ export const confirmEmail: FieldResolver<"Mutation", "confirmEmail"> = async (
     throw GqlError("Invalid token");
   }
 
-  return prisma.user.update({
+  const updatedUser = await prisma.user.update({
     where: {
       id: confirmation.userId,
     },
     data: {
       confirmed: true,
-      profile: {
-        update: {
-          firstName,
-          lastName,
-        },
-      },
     },
   });
+
+  const jwt = await AuthService.signJwt(updatedUser.id);
+
+  reply.setCookie(config.auth.cookiePrefix, jwt, {
+    httpOnly: true,
+    expires: new Date(config.auth.expires),
+  });
+
+  return updatedUser;
 };
 
 /**
@@ -86,7 +89,7 @@ export const requestLogin: FieldResolver<"Mutation", "requestLogin"> = async (
   { email },
   { prisma, GqlError }
 ) => {
-  const user = await prisma.user.findUnique({
+  const user = await prisma.user.findFirst({
     where: { email },
   });
 
@@ -120,7 +123,7 @@ export const login: FieldResolver<"Mutation", "login"> = async (
 
   await redis.del(code);
 
-  const user = await prisma.user.findUnique({
+  const user = await prisma.user.findFirst({
     where: { id },
   });
 
